@@ -856,7 +856,7 @@ $.fn.getLayerIndex = function getLayerIndex( layerId ) {
 	return inArray( layer, layers );
 };
 
-// Set properties of a layer
+// Set properties of a layer, parms id or layer object
 $.fn.setLayer = function setLayer( layerId, props ) {
 	var $canvases = this, $canvas, e,
 		data, layer,
@@ -865,8 +865,12 @@ $.fn.setLayer = function setLayer( layerId, props ) {
 	for ( e = 0; e < $canvases.length; e += 1 ) {
 		$canvas = $( $canvases[ e ] );
 		data = _getCanvasData( $canvases[ e ] );
-
-		layer = $( $canvases[ e ] ).getLayer( layerId );
+                
+                if (layerId instanceof jCanvasObject) {
+                    layer = layerId;
+                }else{
+                    layer = $( $canvases[ e ] ).getLayer( layerId );
+                }
 		if ( layer ) {
 
 			// Update layer property maps
@@ -974,7 +978,11 @@ $.fn.moveLayer = function moveLayer( layerId, index ) {
 
 		// Retrieve layers array and desired layer
 		layers = data.layers;
-		layer = $canvas.getLayer( layerId );
+                if (layerId instanceof jCanvasObject) {
+                    layer = layerId;
+                }else{
+                    layer = $canvas.getLayer( layerId );
+                }
 		if ( layer ) {
 
 			// Ensure layer index is accurate
@@ -4338,3 +4346,4 @@ $.jCanvas = jCanvas;
 $.jCanvasObject = jCanvasObject;
 
 }));
+
